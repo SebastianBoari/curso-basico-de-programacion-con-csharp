@@ -114,6 +114,7 @@ tener presente en la mayoria de casos son los siguientes:
 // Declaramos las variables. En C#, el tipado es fuerte, por lo tanto,
 // especificar el tipo de dato es obligatorio.
 
+using System;
 using System.Runtime.InteropServices;
 
 int ladoA;
@@ -442,14 +443,100 @@ else
 }
 
 
-// Sentencia Switch
+// Sentencia Switch y Bucle While
 
 // Si bien se dice mucho que el switch ya no se usa pero aun tiene sus casos de uso
 // como por ejemplo las maquinas de estado.
 
+System.Random random = new System.Random();
 
-// |-----------------------------------------------------------------------------------|
+// Blackjack:
+// Juntar 21 pidiendo cartas
+// En caso de tener menos de 21 igual
+// tener mayor puntuacion que el dealer.
+// En caso de pasarte de 21 pierdes
 
+// Variables
+int platzicoins = 0;
+int num = 0;
+int totalJugador = 0;
+int totalDealer = 0;
+string message = "";
+string cardControl = "";
+string switchControl = "menu";
 
+// Juego
+while (true)
+{
+    Console.WriteLine("Bienvenido al PLATZINO");
+    Console.WriteLine("Cuantos PlatziCoins deseas? \n Recuerdas que necesitas una por ronda.");
+
+    platzicoins = int.Parse(Console.ReadLine());
+
+    totalJugador = 0;
+    totalDealer = 0;
+
+    for (int i = 0; i < platzicoins; i++)
+    {
+        switch (switchControl)
+        {
+            case "menu":
+                Console.WriteLine("Escriba 21 para jugar al blackjack");
+                switchControl = Console.ReadLine();
+                i--;
+                break;
+
+            case "21":
+                do
+                {
+                    num = random.Next(1, 12);
+
+                    totalJugador += num;
+
+                    Console.WriteLine("Toma tu carta, jugador.");
+
+                    Console.WriteLine($"Te salio el: {num}");
+
+                    Console.WriteLine("Otra carta?");
+
+                    cardControl = Console.ReadLine();
+
+                } while (cardControl == "Si" || cardControl == "si" || cardControl == "yes");
+
+                totalDealer = random.Next(14, 23);
+                Console.WriteLine($"El dealer tiene {totalDealer}");
+
+                if (totalJugador > 21)
+                {
+                    message = "Perdiste contra el dealer, te has pasado de 21, lo siento";
+                    switchControl = "menu";
+                }
+                else if (totalJugador > totalDealer && totalJugador <= 21)
+                {
+                    message = "Venciste al dealer, ¡felicidades!";
+                    i++;
+                    switchControl = "menu";
+                }
+                else if (totalJugador <= totalDealer || totalJugador > 21)
+                {
+                    message = "Perdiste contra el dealer, lo siento";
+                    switchControl = "menu";
+                }
+                else
+                {
+                    message = "Condición no válida";
+                    switchControl = "menu";
+                }
+
+                Console.Clear();
+                Console.WriteLine(message);
+                break;
+
+            default:
+                Console.WriteLine("Valor ingresado no valido en el C A S I N O");
+                break;
+        }
+    }
+}
 
 // |-----------------------------------------------------------------------------------|
